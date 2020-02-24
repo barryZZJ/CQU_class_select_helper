@@ -8,7 +8,6 @@
 // @match        *://jxgl.cqu.edu.cn/*
 // @match        *://222.198.128.126/*
 // @match        *://202.202.1.176/*
-
 // @require      https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js
 // @grant        none
 // ==/UserScript==
@@ -35,8 +34,8 @@ const Last_Submit_DOM_Storage_Key = //* 储存DOM组件checkbox和显示文字�
     'fx' : 'DOMInfo_fx',
     'ts' : 'DOMInfo_ts'
 };
-//* 上次提交记录分享到其他网站
-const HOSTS = ["202.202.1.41", "jxgl.cqu.edu.cn", "222.198.128.126", "202.202.1.176"];
+// // 上次提交记录分享到其他网站 (不行)
+// // const HOSTS = ["202.202.1.41", "jxgl.cqu.edu.cn", "222.198.128.126", "202.202.1.176"];
 //* III. 弹出窗口中添加"快速选择"按钮 ---------------------------
 const Append_Fast_Choose_Button = true;
 //* IV. 自动点击检索按钮 -------------------------------------
@@ -136,9 +135,8 @@ function clearResubmitStorage() {
             
             // console.log(this.location.pathname);
             //* 为了保证多开网页能通用，存在localStorage里。
-            //TODO 不同域名的网站也要通用？--> 跨域存储 postMessage()方法和listener 存储到localStorage的同时postMessage到其他网址的相同pathname下。 listener读取到的数据加入localStorage
+            //TODO 不同域名的网站也要通用？--> //不行：跨域存储 postMessage()方法和listener 存储到localStorage的同时postMessage到其他网址的相同pathname下。 listener读取到的数据加入localStorage
             //* 在提交旁边加上重复上次提交按钮，提交按钮按下时先在 localStorage 存下 frmMain(/wsxk/stu_btx.aspx) -> frmRpt(/wsxk/stu_btx_rpt.aspx) -> id=oTable 的innerHTML，点击重复提交时先从storage里调取覆盖，再执行提交按钮对应的onclick，
-            
             
             var subBtn = null; // 提交按钮，含提交的窗口加载出来时就会赋值
             var oTable = null; // 所有选课内容的表格
@@ -178,7 +176,6 @@ function clearResubmitStorage() {
     
                 //* II.2. 设置重新提交按钮按下时的逻辑 ---------------------------------
                 //* 先覆盖当前oTable的信息（修改innerHTML），再调用提交按钮的onclick函数
-                    
 
                 resubBtn.onclick = function(subBtn){
                     return function(){
@@ -261,7 +258,6 @@ function clearResubmitStorage() {
                 subBtn.onclick = function(oTable, leixing){
                     return function(){
 
-                        debugger;
                         localStorage.setItem(Last_Submit_Table_Storage_Key[leixing], oTable.innerHTML);
     
                         //* 存所有checkbox (chkKC#)的checked属性和后面的input (chkSKBJstr#)的value属性到JSON
@@ -279,30 +275,29 @@ function clearResubmitStorage() {
                             JSON.stringify(tmp));
                         console.log(HEADER + "成功保存" + leixing + "_信息");
 
-                        //* 异步广播信息到其他网站的相同pathname
-                        setTimeout(function(keys, vals, n){
-                            return function(){
-                                for (const host of HOSTS) {
-                                    if (host != location.hostname) {
-                                        for (let i = 0; i < n; i++) {
-                                            const key = keys[i], val = vals[i];
-                                            // postMessage(JSON.stringify({'key':key, 'val':val}), "http://" + host + location.pathname);
-                                            postMessage(JSON.stringify({'key':key, 'val':val}), "http://" + host);
+                        // //* 异步广播信息到其他网站的相同pathname
+                        // setTimeout(function(keys, vals, n){
+                        //     return function(){
+                        //         for (const host of HOSTS) {
+                        //             if (host != location.hostname) {
+                        //                 for (let i = 0; i < n; i++) {
+                        //                     const key = keys[i], val = vals[i];
+                        //                     // postMessage(JSON.stringify({'key':key, 'val':val}), "http://" + host + location.pathname);
+                        //                     postMessage(JSON.stringify({'key':key, 'val':val}), "http://" + host);
                                             
-                                        }
-                                    }
-                                    // console.log(HEADER + "已发送广播到" + host + location.pathname);
-                                    console.log(HEADER + "已发送广播到" + host);
-                                }
-                            };
-                        }([Last_Submit_Table_Storage_Key[leixing], Last_Submit_DOM_Storage_Key[leixing]], [oTable.innerHTML, JSON.stringify(tmp)], 2), 0);
+                        //                 }
+                        //             }
+                        //             // console.log(HEADER + "已发送广播到" + host + location.pathname);
+                        //             console.log(HEADER + "已发送广播到" + host);
+                        //         }
+                        //     };
+                        // }([Last_Submit_Table_Storage_Key[leixing], Last_Submit_DOM_Storage_Key[leixing]], [oTable.innerHTML, JSON.stringify(tmp)], 2), 0);
     
                         self.document.all.Submit.onclick();
                     };
 
                 } (oTable, leixing);
 
-                
             }
         }
     }
