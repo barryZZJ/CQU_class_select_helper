@@ -15,15 +15,15 @@
 + `V.` 点击检索按钮时自动输入验证码;
 
 # 更新日志 
+> v1.2 &nbsp; 2020.2.?
+
+添加功能 `V.` 点击检索按钮时自动输入验证码
+
+感谢OCR开源库[https://github.com/naptha/tesseract.js#tesseractjs](https://github.com/naptha/tesseract.js#tesseractjs)
+
 > v1.1 &nbsp; 2020.2.25 
 
-1. 修改 `II.`，把信息存储从localStorage变为GM storage，由此增加了跨网页、跨域名共享。
-
-2. 添加功能 `V.` 点击检索按钮时自动输入验证码
-
-    感谢OCR开源库[https://github.com/naptha/tesseract.js#tesseractjs](https://github.com/naptha/tesseract.js#tesseractjs)
-
-
+修改 `II.`，把信息存储从localStorage变为GM storage，由此增加了跨网页、跨域名共享。
 
 > v1.0 &nbsp; 2020.2.24
 
