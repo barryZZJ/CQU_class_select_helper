@@ -6,13 +6,19 @@
 
 # 目前功能：
 + `I.` 删除提交时的确认提示; 
-
+<br>
 + `II.` 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见 `@match`）; 
-  ![重复上次提交](readmepics/II.jpg)
+<br>
 
+  ![重复上次提交](readmepics/II.jpg#pic_center)
+<br>
 
 + `III.` 弹出选老师窗口中添加"快速选择"按钮，一键选择，自动点击确定; 
-  ![快速选择](readmepics/III.jpg)
+<br>
+
+  ![快速选择](readmepics/III.jpg#pic_center)
+
+<br>
 
 + `IV.` 选择选课页面后自动点击检索按钮;
 
