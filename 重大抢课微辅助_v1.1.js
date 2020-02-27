@@ -9,8 +9,6 @@
 // @match        *://222.198.128.126/*
 // @match        *://202.202.1.176/*
 // @require      https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js
-// @note         2020.2.25 v1.1 修改 II，把信息存储从localStorage变为GM storage，由此增加了跨网页、跨域名共享。
-// @note         2020.2.24 v1.0 添加 I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择+确定; IV. 选择选课页面后自动点击检索按钮 等功能。
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_deleteValue
@@ -21,7 +19,7 @@
     //TODO 添加打开/home.aspx时自动点击登陆
 //TODO 非限和通识每次点检索时尝试自动输入验证码
 
-const SCR_HEADER = "重大抢课微辅助: ";
+const SCR_HEADER = "重大抢课微辅助";
 //* 各种功能开关 -------------------------------------------
 //* I. 删除提交时的确认提示 ----------------------------------
 const Delete_Submit_Prompt = true; 
@@ -45,6 +43,9 @@ const Last_Submit_DOM_Storage_Key = //* 储存DOM组件checkbox和显示文字�
 const Append_Fast_Choose_Button = true;
 //* IV. 自动点击检索按钮 -------------------------------------
 const Auto_Click_Search = true;
+//* -----------------------------
+//* 开启Debug功能后会在console输出信息
+const DEBUG_MODE = true;
 //* ------------------------------------------------------
 
 //* 需要前面的prefix才能用，如 input.button
@@ -59,6 +60,21 @@ const BTN_CSS =
 }
 `;
 
+function log(msg){
+    if (DEBUG_MODE){
+        let d = new Date();
+        console.log("[" + SCR_HEADER + "] " + msg + " " + d.getHours + ":" + d.getMinutes + ":" + d.getSeconds);
+    }
+};
+
+function error(msg){
+    if (DEBUG_MODE){
+        let d = new Date();
+        console.error("[" + SCR_HEADER + "] " + msg + " " + d.getHours + ":" + d.getMinutes + ":" + d.getSeconds);
+    }
+};
+
+
 //* 清空脚本存储的记录，
 function clearResubmitStorage() {
     GM_deleteValue(Last_Submit_Table_Storage_Key['xk']);
@@ -72,6 +88,7 @@ function clearResubmitStorage() {
 }
 
 (function() {
+    'use strict'; // 严格模式下使用未定义的变量会报错
     // if (name = 'frmMain') {
     //     console.log(SCR_HEADER + this.location.pathname);
     // }
@@ -104,9 +121,9 @@ function clearResubmitStorage() {
             document.scripts[tpe].replaceWith(scr);
 
             if (document.scripts[tpe].text.search("是否提交记录")==-1){
-                console.log(SCR_HEADER + "已删除提交确认框！");
+                log("已删除提交确认框！");
             }else{
-                console.error(SCR_HEADER + "未删除提交确认框！");
+                error("未删除提交确认框！");
             }    
         }
     }
@@ -149,7 +166,7 @@ function clearResubmitStorage() {
             for (const btn of document.querySelectorAll(".button")) {
                 if (btn.value == "提交"){
                     subBtn = btn;
-                    console.log(SCR_HEADER + "获取提交按钮");
+                    log("获取提交按钮");
                     break;
                 }
             }
@@ -174,7 +191,7 @@ function clearResubmitStorage() {
     
                 //* 添加到 提交 后面
                 insertAfter(resubBtn, subBtn);
-                console.log(SCR_HEADER + "已添加重复上次提交" + leixing + "按钮。");
+                log("已添加重复上次提交" + leixing + "按钮。");
     
                 //* II.2. 设置重新提交按钮按下时的逻辑 ---------------------------------
                 //* 先覆盖当前oTable的信息（修改innerHTML），再调用提交按钮的onclick函数
@@ -199,18 +216,18 @@ function clearResubmitStorage() {
                                 chkSKBJstr.value = tmp[chkSKBJstr.id];
                             }
     
-                            console.log(SCR_HEADER + "成功读取" + leixing + "_信息。");
+                            log("成功读取" + leixing + "_信息。");
                             
                             subBtn.onclick();
                         }else{
-                            console.error(SCR_HEADER + leixing + "_信息不存在！");
+                            error(leixing + "_信息不存在！");
                         }
                     };
                 }(subBtn);
                 
                 
             }else {
-                console.error(SCR_HEADER + "未能添加重复上次提交按钮。");
+                error("未能添加重复上次提交按钮。");
             }
         }
             
@@ -234,7 +251,7 @@ function clearResubmitStorage() {
             for (const btn of parent.document.querySelectorAll(".button")) {
                 if (btn.value == "提交"){
                     subBtn = btn;
-                    console.log(SCR_HEADER + "获取提交按钮");
+                    log("获取提交按钮");
                     break;
                 }
             }
@@ -275,7 +292,7 @@ function clearResubmitStorage() {
     
                         GM_setValue(Last_Submit_DOM_Storage_Key[leixing], 
                             JSON.stringify(tmp));
-                        console.log(SCR_HEADER + "成功保存" + leixing + "_信息");
+                        log("成功保存" + leixing + "_信息");
 
                         self.document.all.Submit.onclick();
                     };
@@ -334,13 +351,13 @@ function clearResubmitStorage() {
                         rad.onclick(); // 选中前面的rad
                         sureBtn.onclick(); // 点击确定
 
-                        console.log(SCR_HEADER + "快速选择了" + rad.id);
+                        log("快速选择了" + rad.id);
                     }
                 }(rad, sureBtn);
                 
             }
         }
-        console.log(SCR_HEADER + "添加了快选按钮");
+        log("添加了快选按钮");
 
     }
     //* --------------------------------------------------------------
@@ -373,15 +390,15 @@ window.onload = function(){
             for (const btn of document.querySelectorAll(".button")) {
                 if (btn.value == "检索"){
                     searchBtn = btn;
-                    console.log(SCR_HEADER + "已获取检索按钮");
+                    log("已获取检索按钮");
                     break;
                 }
             }
             if (searchBtn){
                 searchBtn.click(); // 模拟点击按钮
-                console.log(SCR_HEADER + "已点击检索按钮");
+                log("已点击检索按钮");
             }else{
-                console.error(SCR_HEADER + "未找到检索按钮");
+                error("未找到检索按钮");
             }
         }
     }
