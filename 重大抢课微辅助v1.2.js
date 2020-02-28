@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         重大抢课微辅助
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见@match）; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择+确定; IV. 选择选课页面后自动点击检索按钮
+// @version      1.2
+// @description  I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见@match）; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择+确定; IV. 选择选课页面后自动点击检索按钮;
 // @author       ZZJ
 // @match        *://202.202.1.41/*
 // @match        *://jxgl.cqu.edu.cn/*
@@ -13,18 +13,34 @@
 // @grant        GM_getValue
 // @grant        GM_deleteValue
 // @grant        GM_addStyle
+// @grant        GM_registerMenuCommand
+// @grant        GM_unregisterMenuCommand
 // ==/UserScript==
 
-//TODO 添加插件下拉菜单开关各个功能
+
     //TODO 添加打开/home.aspx时自动点击登陆
 //TODO 非限和通识每次点检索时尝试自动输入验证码
+    //TODO 如果能识别了尝试一下训练
 
 const SCR_HEADER = "重大抢课微辅助";
+const configs = []; //* [各个功能的名字, 开关情况] 放在字典里用于生成下拉菜单时遍历
+//* 各个功能的类，key为GM存储中的key, caption为在下拉菜单中显示的文字
+class Config {
+    constructor(key, enabled, caption) {
+        this.key = key;
+        this.enabled = enabled;
+        this.caption = caption;
+    }
+};
 //* 各种功能开关 -------------------------------------------
 //* I. 删除提交时的确认提示 ----------------------------------
-const Delete_Submit_Prompt = true; 
+var Delete_Submit_Prompt = new Config("Del_Sub_Prmpt", GM_getValue("Del_Sub_Prmpt") == null ? true : GM_getValue("Del_Sub_Prmpt"), "删除提交时的确认提示"); // 默认值为true
+configs.push(Delete_Submit_Prompt);
+
 //* II. 添加"重复上次提交"按钮 ----------------------------------
-const Append_Resubmit_Button = true;
+var Append_Resubmit_Button = new Config("App_Resub_Btn", GM_getValue("App_Resub_Btn") == null ? true : GM_getValue("App_Resub_Btn"), "添加“重复上次提交”按钮"); // 默认值为true
+configs.push(Append_Resubmit_Button);
+
 const Last_Submit_Table_Storage_Key = //* 储存oTable的innerHTML
 {
     'xk' : "oTableInfo_xk", //* 存储选课程otable的信息（上次提交内容）对应的key
@@ -39,14 +55,60 @@ const Last_Submit_DOM_Storage_Key = //* 储存DOM组件checkbox和显示文字�
     'fx' : 'DOMInfo_fx',
     'ts' : 'DOMInfo_ts'
 };
+// const New_DOM_Storage_Key = //* 储存当前DOM组件checkbox和显示文字的input（用于存储取消提示时的返回状态）
+// {
+//     'xk': 'new_DOMInfo_xk',
+//     'yy': 'new_DOMInfo_yy',
+//     'fx': 'new_DOMInfo_fx',
+//     'ts': 'new_DOMInfo_ts'
+// };
+
 //* III. 弹出窗口中添加"快速选择"按钮 ---------------------------
-const Append_Fast_Choose_Button = true;
+var Append_Fast_Choose_Button = new Config("App_Fast_Chs_Btn", GM_getValue("App_Fast_Chs_Btn") == null ? true : GM_getValue("App_Fast_Chs_Btn"), "弹出窗口中添加“快速选择”按钮"); // 默认值为true
+configs.push(Append_Fast_Choose_Button);
+
 //* IV. 自动点击检索按钮 -------------------------------------
-const Auto_Click_Search = true;
+var Auto_Click_Search = new Config("Auto_Search", GM_getValue("Auto_Search") == null ? true : GM_getValue("Auto_Search"), "自动点击检索按钮"); // 默认值为true
+configs.push(Auto_Click_Search);
+
 //* -----------------------------
 //* 开启Debug功能后会在console输出信息
-const DEBUG_MODE = true;
+var DEBUG_MODE = new Config("Debug_Mode", GM_getValue("Debug_Mode") == null ? true : GM_getValue("Debug_Mode"), "控制台输出debug信息"); // 默认值为true
+configs.push(DEBUG_MODE);
+
 //* ------------------------------------------------------
+//* 根据当前功能开关情况生成插件下拉菜单，并添加对应修改函数 ---------------------
+var menuIds = []; //所有下拉菜单的id
+
+drawMenu();
+
+// 每次按下按钮后就重绘一遍menu
+function drawMenu () {
+    // 重绘新菜单，只有在最父层frame且没有id的时候才重绘，避免内层frame加载时重复多次调用
+    if (window == top) {
+        // debugger;
+        menuIds = [];
+        for (const config of configs) {
+            var pre = config.enabled ? "【👌 已启用】" : "【❌已禁用】";
+            var id = GM_registerMenuCommand(pre + config.caption, changeEnabled(config));
+            menuIds.push(id);
+        }
+    }
+}
+
+function changeEnabled(config) {
+    return () => {
+        // debugger;
+        config.enabled = !config.enabled;
+        GM_setValue(config.key, config.enabled);
+
+        // 修改功能开关后重绘下拉菜单
+        for (const id of menuIds) {
+            GM_unregisterMenuCommand(id);
+        }
+        drawMenu();
+    };
+}
 
 //* 需要前面的prefix才能用，如 input.button
 const BTN_CLASS = "ZZJBtn";
@@ -61,18 +123,19 @@ const BTN_CSS =
 `;
 
 function log(msg){
-    if (DEBUG_MODE){
+    if (DEBUG_MODE.enabled){
         let d = new Date();
-        console.log("[" + SCR_HEADER + "] " + msg + " " + d.getHours + ":" + d.getMinutes + ":" + d.getSeconds);
+        console.log("[" + SCR_HEADER + "] " + msg + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
     }
 };
 
 function error(msg){
-    if (DEBUG_MODE){
+    if (DEBUG_MODE.enabled){
         let d = new Date();
-        console.error("[" + SCR_HEADER + "] " + msg + " " + d.getHours + ":" + d.getMinutes + ":" + d.getSeconds);
+        console.error("[" + SCR_HEADER + "] " + msg + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
     }
 };
+
 
 
 //* 清空脚本存储的记录，
@@ -95,9 +158,8 @@ function clearResubmitStorage() {
     // if (name == 'frmRpt'){
     //     console.log(SCR_HEADER + this.location.pathname);
     // }
-
     //* I. 删除提交时的提示 -------------------------------------------------
-    if (Delete_Submit_Prompt && name == 'frmRpt'){
+    if (Delete_Submit_Prompt.enabled && name == 'frmRpt'){
         
         //* 删掉frmRpt(/wsxk/stu_btx_rpt.aspx)里的ChkValue(theObj)里的 
         //* str: if (!confirm('是否提交记录？'))return false;
@@ -108,14 +170,14 @@ function clearResubmitStorage() {
         //* 英语 frmRpt(/wsxk/stu_btx_rpt.aspx))
         //* 非限 frmRpt(/wsxk/stu_btx_rpt.aspx))
         var tpe = null;
-        if (this.location.pathname == "/wsxk/stu_btx_rpt.aspx"){
+        if (self.location.pathname == "/wsxk/stu_btx_rpt.aspx"){
             tpe = 1;
-        }else if(this.location.pathname == "/wsxk/stu_xszx_rpt.aspx"){
+        }else if(self.location.pathname == "/wsxk/stu_xszx_rpt.aspx"){
             tpe = 3;
         }
         if (tpe) {
             // 先找到对应的script元素，用删掉文字后的标签替换原标签
-            var scr = this.document.createElement("script");
+            var scr = self.document.createElement("script");
             scr.innerHTML = document.scripts[tpe].innerHTML.replace("if (!confirm('是否提交记录？'))return false;", "");
 
             document.scripts[tpe].replaceWith(scr);
@@ -130,9 +192,10 @@ function clearResubmitStorage() {
     //* -----------------------------------------------------------------
     
     //* II. "重复上次提交"按钮 ---------------------------------------------
-    if (Append_Resubmit_Button && name == 'frmMain'){
+    if (Append_Resubmit_Button.enabled && name == 'frmMain'){
+        // debugger;
         var leixing = null; // 是哪个类型的页面：xk, ts, yy, fx
-        switch (this.location.pathname) {
+        switch (window.location.pathname) {
             case "/wsxk/stu_btx.aspx": // 专业课
                 leixing = "xk";
                 break;
@@ -157,7 +220,7 @@ function clearResubmitStorage() {
             
             // console.log(this.location.pathname);
             //* 为了保证多开网页能通用，存在GM storage里。
-            //TODO 不同域名的网站也要通用？--> 利用GM_setValue和GM_getValue, 而不存储在localStorage里
+            //* 不同域名的网站也要通用？--> 利用GM_setValue和GM_getValue, 而不存储在localStorage里
             //* 在提交旁边加上重复上次提交按钮，提交按钮按下时先在 GM storage 存下 frmMain(/wsxk/stu_btx.aspx) -> frmRpt(/wsxk/stu_btx_rpt.aspx) -> id=oTable 的innerHTML，点击重复提交时先从storage里调取覆盖，再执行提交按钮对应的onclick，
             
             var subBtn = null; // 提交按钮，含提交的窗口加载出来时就会赋值
@@ -235,15 +298,15 @@ function clearResubmitStorage() {
     }
     //* II.3. 改写提交按钮的逻辑，把提交内容存入Storage，并post到其他hosts的相同pathname下 -----------------
     //* 提交按钮按下时先在 Storage 存下 frmMain(/wsxk/stu_btx.aspx) -> frmRpt(/wsxk/stu_btx_rpt.aspx) -> id=oTable 的innerHTML。点击重复提交时先从storage里调取覆盖，再执行提交按钮对应的onclick。
-    if (Append_Resubmit_Button && name == 'frmRpt'){
+    if (Append_Resubmit_Button.enabled && name == 'frmRpt'){
         // 通识 frmRpt(/wsxk/stu_xszx_rpt.aspx)
         // 英语 frmRpt(/wsxk/stu_btx_rpt.aspx)
         // 非限 frmRpt(/wsxk/stu_btx_rpt.aspx)
         
         var tpe = null; // 选择修改的内容是scripts几
-        if (this.location.pathname == "/wsxk/stu_btx_rpt.aspx"){
+        if (self.location.pathname == "/wsxk/stu_btx_rpt.aspx"){
             tpe = 1;
-        }else if(this.location.pathname == "/wsxk/stu_xszx_rpt.aspx") {
+        } else if (self.location.pathname == "/wsxk/stu_xszx_rpt.aspx") {
             tpe = 3;
         }
         if (tpe){   
@@ -263,7 +326,7 @@ function clearResubmitStorage() {
                 //* 可以单独记录所有chkKC的checked和chkSKBJstr的value，读取的时候也把这些信息读进来。√
                 //* 或修改网页的函数openWinDialog, 使得改变chkKC的属性值以及chkSKBJstr的value使修改对应的HTML标签。×
                 
-                // var oTable = null;
+                var oTable = null;
                 if (name == 'frmRpt') {
                     oTable = document.getElementById("oTable");
                 }else if (name == 'frmMain') {
@@ -279,7 +342,7 @@ function clearResubmitStorage() {
 
                         GM_setValue(Last_Submit_Table_Storage_Key[leixing], oTable.innerHTML);
     
-                        //* 存所有checkbox (chkKC#)的checked属性和后面的input (chkSKBJstr#)的value属性到JSON
+                        //* 存所有checkbox (chkKC#)的checked属性和后面的input (chkSKBJstr#)的value属性到JSON，key是对应的id
                         const chkKCs = oTable.querySelectorAll("input[type='checkbox']");
                         var tmp = {}; // 要存储的JSON：chkKC1: true, ...
                         for (const chkKCi of chkKCs) {
@@ -305,7 +368,7 @@ function clearResubmitStorage() {
     //* --------------------------------------------------------------
 
     //* III. 弹出窗口增加快速选择选项（选好后自动确定） --------------------------
-    if (Append_Fast_Choose_Button && (location.pathname == "/wsxk/stu_xszx_skbj.aspx" || location.pathname == "/wsxk/stu_xszx_chooseskbj.aspx")){
+    if (Append_Fast_Choose_Button.enabled && (location.pathname == "/wsxk/stu_xszx_skbj.aspx" || location.pathname == "/wsxk/stu_xszx_chooseskbj.aspx")){
         //* 专业课: /wsxk/stu_xszx_skbj.aspx?xxxx=xxxx
         //* 英语: /wsxk/stu_xszx_chooseskbj.aspx?xxx
         //* 非限: /wsxk/stu_xszx_skbj.aspx?xxx
@@ -367,9 +430,9 @@ function clearResubmitStorage() {
 window.onload = function(){
     //* IV. 自动点击检索按钮
     //* class为button, value为检索
-    if (Auto_Click_Search && name == 'frmMain'){
+    if (Auto_Click_Search.enabled && name == 'frmMain'){
         var leixing = null; // 是哪个类型的页面：xk, ts, yy, fx
-        switch (this.location.pathname) {
+        switch (self.location.pathname) {
             case "/wsxk/stu_btx.aspx": // 专业课
                 leixing = "xk";
                 break;
@@ -404,6 +467,60 @@ window.onload = function(){
     }
     //* --------------------------------------------------------------
 };
+
+// // 鼠标
+// function resubBtnEnter() {
+//     //* II补. 鼠标放在重复提交的按键上时，在老师栏里提示上次的提交结果
+//     //TODO 感觉没必要，毕竟你每次只会选一个老师就提交了
+//     //TODO 实现mouseenter和mouseleave函数，只需要修改chkKC的checked和chkSKBJ的value即可
+//     //TODO 避免不同学期有影响，最简单的比较一下两个Table的行数，如果不一样就不显示提示（通识除外）
+//     //TODO 先把每个chkSKBJ文本框的宽度改成120px，从存储的DOM里找到与当前DOM不同的地方，在查看(winSKBJ)后面加上一个div
+//     var tpe = null; // 选择修改的内容是scripts几
+//     if (self.location.pathname == "/wsxk/stu_btx_rpt.aspx") {
+//         tpe = 1;
+//     } else if (self.location.pathname == "/wsxk/stu_xszx_rpt.aspx") {
+//         tpe = 3;
+//     }
+//     if (tpe) {
+//         var oTable = null;
+//         if (self.name == 'frmRpt') {
+//             oTable = document.getElementById("oTable");
+//         } else if (name == 'frmMain') {
+//             oTable = frmRpt.document.getElementById("oTable");
+//         }
+//         //* 改变提示信息之前应该把新的信息也存下来，这样鼠标移出的时候才好还原状态
+//         const nchkKCs = oTable.querySelectorAll("input[type='checkbox']");
+//         var tmp = {}; // 要存储的JSON：chkKC1: true, ...
+//         for (const nchkKCi of nchkKCs) {
+//             tmp[nchkKCi.id] = nchkKCi.checked;
+//         }
+//         const nchkSKBJstrs = oTable.querySelectorAll("input[type='text']");
+//         for (const nchkSKBJstr of nchkSKBJstrs) {
+//             tmp[nchkSKBJstr.id] = nchkSKBJstr.value;
+//         }
+
+//         GM_setValue(New_DOM_Storage_Key[leixing],
+//             JSON.stringify(tmp));
+
+//         const leixing = parent.document.querySelector("." + BTN_CLASS).getAttribute("leixing");
+
+//         // var ooTable = GM_getValue(Last_Submit_DOM_Storage_Key) // 上次提交时的table
+
+//         //* 比较checkbox的checked和input的value信息，有区别的添加到“查看”后面
+//         var oldDOM = JSON.parse(GM_getValue(Last_Submit_DOM_Storage_Key[leixing]));
+//         var nchkKCs = oTable.querySelectorAll("input[type='checkbox']");
+//         for (const nchkKCi of nchkKCs) {
+//             if (nchkKCi.checked != oldDOM[nchkKCi.id]) {
+//                 chk
+//             }
+//         }
+
+//         var chkSKBJstrs = oTable.querySelectorAll("input[type='text']");
+//         for (const chkSKBJstr of chkSKBJstrs) {
+//             chkSKBJstr.value = oldDOM[chkSKBJstr.id];
+//         }
+//     }
+// }
 
 function insertBefore(newElem, targetElem) {
     var parent = targetElem.parentNode;

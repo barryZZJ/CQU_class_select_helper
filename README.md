@@ -31,8 +31,17 @@
 - 添加功能 `V.` 点击检索按钮时自动输入验证码 (TODO)
 
   感谢OCR开源库[https://github.com/naptha/tesseract.js#tesseractjs](https://github.com/naptha/tesseract.js#tesseractjs)
+-->
 
-- 添加插件下拉菜单开关 (在油猴插件图标那里) -->
+> v1.2 &nbsp; 2020.2.28
+
+- 在油猴插件下拉菜单里添加各个功能的开关 
+
+![下拉菜单](readmepics/menu.jpg.jpg#pic_center)
+
+- 改了一个不知道严不严重的bug，就是调用当前窗口时应该使用self而不是this。
+
+<!-- - [deprecated] 显示上次提交的记录作为提示 -->
 
 > v1.1 &nbsp; 2020.2.25 
 
