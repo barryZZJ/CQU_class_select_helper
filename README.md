@@ -37,7 +37,7 @@
 
 - 在油猴插件下拉菜单里添加各个功能的开关 
 
-![下拉菜单](readmepics/menu.jpg.jpg#pic_center)
+![下拉菜单](readmepics/menu.jpg#pic_center)
 
 - 改了一个不知道严不严重的bug，就是调用当前窗口时应该使用self而不是this。
 
