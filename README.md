@@ -1,8 +1,9 @@
 <!-- 空格 &nbsp; -->
-# 重大抢课微辅助
+# 重庆大学抢课微辅助
 方便抢课的微辅助功能，油猴脚本。
+[Greasy Fork安装地址]()
 
-可能会更新新功能。
+有建议可以Issue，不定期更新新功能。
 
 # 目前功能：
 + `I.` 删除提交时的确认提示; 
@@ -14,14 +15,14 @@
   ![重复上次提交](readmepics/II.jpg#pic_center)
 <br>
 
-+ `III.` 弹出选老师窗口中添加"快速选择"按钮，一键选择，自动点击确定; 
++ `III.` 弹出选老师窗口中添加"快速选择"按钮，一键选择老师; 
 <br>
 
-  ![快速选择](readmepics/III.jpg#pic_center)
+  ![一键选择老师](readmepics/III.jpg#pic_center)
 
 <br>
 
-+ `IV.` 选择选课页面后自动点击检索按钮;
++ `IV.` 进入选课页面后自动点击检索按钮;
 
 <!-- + `V.` 点击检索按钮时自动输入验证码; -->
 
@@ -32,6 +33,10 @@
 
   感谢OCR开源库[https://github.com/naptha/tesseract.js#tesseractjs](https://github.com/naptha/tesseract.js#tesseractjs)
 -->
+
+> v1.2.1 &nbsp; 2020.2.29
+
+- 添加了namespace、updateURL、favicon等细节，上传了Greasy Fork。
 
 > v1.2 &nbsp; 2020.2.28
 

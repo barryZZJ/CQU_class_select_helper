@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         重大抢课微辅助
+// @name         重庆大学抢课微辅助
 // @namespace    https://github.com/zhouzejun2/CQU_class_select_helper
 // @@homepageURL https://github.com/zhouzejun2
 // @version      1.2.1
-// @description  I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见@match）; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择+确定; IV. 选择选课页面后自动点击检索按钮;
-// @author       ZZJ
+// @description  I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见@match）; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择老师; IV. 进入选课页面后自动点击检索按钮;
+// @author       Barry ZZJ
 // @updateURL    https://github.com/zhouzejun2/CQU_class_select_helper/raw/master/CQU_class_select_helper.user.js
 // @icon         http://www.cqu.edu.cn/favicon.ico
 // @match        *://202.202.1.41/*
@@ -20,14 +20,11 @@
 // @grant        GM_unregisterMenuCommand
 // ==/UserScript==
 
-// GM+menu_v1.2.js
-// v1.2.1 尝试一下更新功能好不好使
-
     //TODO 添加打开/home.aspx时自动点击登陆
 //TODO 非限和通识每次点检索时尝试自动输入验证码
     //TODO 如果能识别了尝试一下训练
 
-const SCR_HEADER = "重大抢课微辅助";
+const SCR_HEADER = "🐛重大抢课微辅助"; // 用于debug
 const configs = []; //* [各个功能的名字, 开关情况] 放在字典里用于生成下拉菜单时遍历
 //* 各个功能的类，key为GM存储中的key, caption为在下拉菜单中显示的文字
 class Config {
@@ -43,7 +40,7 @@ var Delete_Submit_Prompt = new Config("Del_Sub_Prmpt", GM_getValue("Del_Sub_Prmp
 configs.push(Delete_Submit_Prompt);
 
 //* II. 添加"重复上次提交"按钮 ----------------------------------
-var Append_Resubmit_Button = new Config("App_Resub_Btn", GM_getValue("App_Resub_Btn") == null ? true : GM_getValue("App_Resub_Btn"), "添加“重复上次提交”按钮"); // 默认值为true
+var Append_Resubmit_Button = new Config("App_Resub_Btn", GM_getValue("App_Resub_Btn") == null ? true : GM_getValue("App_Resub_Btn"), "一键重复上次提交"); // 默认值为true
 configs.push(Append_Resubmit_Button);
 
 const Last_Submit_Table_Storage_Key = //* 储存oTable的innerHTML
@@ -69,7 +66,7 @@ const Last_Submit_DOM_Storage_Key = //* 储存DOM组件checkbox和显示文字�
 // };
 
 //* III. 弹出窗口中添加"快速选择"按钮 ---------------------------
-var Append_Fast_Choose_Button = new Config("App_Fast_Chs_Btn", GM_getValue("App_Fast_Chs_Btn") == null ? true : GM_getValue("App_Fast_Chs_Btn"), "弹出窗口中添加“快速选择”按钮"); // 默认值为true
+var Append_Fast_Choose_Button = new Config("App_Fast_Chs_Btn", GM_getValue("App_Fast_Chs_Btn") == null ? true : GM_getValue("App_Fast_Chs_Btn"), "一键选择老师"); // 默认值为true
 configs.push(Append_Fast_Choose_Button);
 
 //* IV. 自动点击检索按钮 -------------------------------------
