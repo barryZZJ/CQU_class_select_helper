@@ -10,6 +10,7 @@
 // @match        *://222.198.128.126/*
 // @match        *://202.202.1.176/*
 // @require      https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js
+// @updateURL    https://github.com/zhouzejun2/CQU_class_select_helper/raw/master/CQU_class_select_helper.user.js
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_deleteValue
