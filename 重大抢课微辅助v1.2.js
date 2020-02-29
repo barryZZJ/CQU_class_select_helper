@@ -89,7 +89,7 @@ function drawMenu () {
         // debugger;
         menuIds = [];
         for (const config of configs) {
-            var pre = config.enabled ? "【👌 已启用】" : "【❌已禁用】";
+            var pre = config.enabled ? "【✔️已启用】" : "【❌已禁用】";
             var id = GM_registerMenuCommand(pre + config.caption, changeEnabled(config));
             menuIds.push(id);
         }
