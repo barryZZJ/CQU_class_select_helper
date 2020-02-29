@@ -10,15 +10,12 @@
 <br>
 
 + `II.` 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见 `@match`）; 
-<br>
+<center><img src="readmepics/II.jpg" alt="重复上次提交" title = "重复上次提交" width="75%"></img></center>
 
-  ![重复上次提交](readmepics/II.jpg#pic_center)
 <br>
 
 + `III.` 弹出选老师窗口中添加"快速选择"按钮，一键选择老师; 
-<br>
-
-  ![一键选择老师](readmepics/III.jpg#pic_center)
+<center><img src="readmepics/III.jpg" alt="一键选择老师" title = "一键选择老师" width="75%"></img></center>
 
 <br>
 
@@ -41,8 +38,7 @@
 > v1.2 &nbsp; 2020.2.28
 
 - 在油猴插件下拉菜单里添加各个功能的开关 
-
-![下拉菜单](readmepics/menu.jpg#pic_center)
+<center><img src="readmepics/menu.jpg" alt="下拉菜单" title = "下拉菜单" width="50%"></img></center>
 
 - 改了一个不知道严不严重的bug，就是调用当前窗口时应该使用self而不是this。
 
