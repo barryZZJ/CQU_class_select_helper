@@ -4,6 +4,7 @@
 // @version      1.2
 // @description  I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见@match）; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择+确定; IV. 选择选课页面后自动点击检索按钮;
 // @author       ZZJ
+// @icon         http://www.cqu.edu.cn/favicon.ico
 // @match        *://202.202.1.41/*
 // @match        *://jxgl.cqu.edu.cn/*
 // @match        *://222.198.128.126/*
