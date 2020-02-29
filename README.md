@@ -1,7 +1,7 @@
 <!-- 空格 &nbsp; -->
 # 重庆大学抢课微辅助
 方便抢课的微辅助功能，油猴脚本。
-[Greasy Fork安装地址]()
+[Greasy Fork安装地址](https://greasyfork.org/zh-CN/scripts/397063-%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E6%8A%A2%E8%AF%BE%E5%BE%AE%E8%BE%85%E5%8A%A9)
 
 有建议可以Issue，不定期更新新功能。
 
