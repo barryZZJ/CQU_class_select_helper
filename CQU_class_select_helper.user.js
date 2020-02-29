@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         重大抢课微辅助
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.2.1
 // @description  I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见@match）; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择+确定; IV. 选择选课页面后自动点击检索按钮;
 // @author       ZZJ
 // @icon         http://www.cqu.edu.cn/favicon.ico
@@ -20,6 +20,7 @@
 // ==/UserScript==
 
 // GM+menu_v1.2.js
+// v1.2.1 尝试一下更新功能好不好使
 
     //TODO 添加打开/home.aspx时自动点击登陆
 //TODO 非限和通识每次点检索时尝试自动输入验证码
