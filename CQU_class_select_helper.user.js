@@ -17,6 +17,7 @@
 // @grant        GM_unregisterMenuCommand
 // ==/UserScript==
 
+// GM+menu_v1.2.js
 
     //TODO 添加打开/home.aspx时自动点击登陆
 //TODO 非限和通识每次点检索时尝试自动输入验证码
