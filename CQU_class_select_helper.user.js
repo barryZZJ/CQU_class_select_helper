@@ -1,16 +1,17 @@
 // ==UserScript==
 // @name         重大抢课微辅助
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/zhouzejun2/CQU_class_select_helper
+// @@homepageURL https://github.com/zhouzejun2
 // @version      1.2.1
 // @description  I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见@match）; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择+确定; IV. 选择选课页面后自动点击检索按钮;
 // @author       ZZJ
+// @updateURL    https://github.com/zhouzejun2/CQU_class_select_helper/raw/master/CQU_class_select_helper.user.js
 // @icon         http://www.cqu.edu.cn/favicon.ico
 // @match        *://202.202.1.41/*
 // @match        *://jxgl.cqu.edu.cn/*
 // @match        *://222.198.128.126/*
 // @match        *://202.202.1.176/*
 // @require      https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js
-// @updateURL    https://github.com/zhouzejun2/CQU_class_select_helper/raw/master/CQU_class_select_helper.user.js
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_deleteValue
