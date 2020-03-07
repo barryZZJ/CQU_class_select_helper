@@ -2,7 +2,7 @@
 // @name         重庆大学抢课微辅助
 // @namespace    https://greasyfork.org/zh-CN/scripts/397063-%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E6%8A%A2%E8%AF%BE%E5%BE%AE%E8%BE%85%E5%8A%A9
 // @homepageURL https://github.com/barryZZJ/CQU_class_select_helper
-// @version      1.2.2
+// @version      1.2.3
 // @description  I. 删除提交时的确认提示; II. 添加"重复上次提交"按钮，因延迟提交失败时可以直接重复上次提交的内容（可跨网页、跨域名共用，支持的网址见@match）; III. 弹出选老师窗口中添加"快速选择"按钮，一键选择老师; IV. 进入选课页面后自动点击检索按钮;
 // @author       Barry ZZJ
 // @updateURL    https://github.com/barryZZJ/CQU_class_select_helper/raw/master/CQU_class_select_helper.user.js
@@ -12,6 +12,7 @@
 // @match        *://222.198.128.126/*
 // @match        *://202.202.1.176/*
 // @require      https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js
+// @license      GPL License
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_deleteValue

@@ -31,6 +31,10 @@
   感谢OCR开源库[https://github.com/naptha/tesseract.js#tesseractjs](https://github.com/naptha/tesseract.js#tesseractjs)
 -->
 
+> v1.2.3 &nbsp; 2020.3.7
+
+- 添加了GPL许可协议
+
 > v1.2.2 &nbsp; 2020.3.7
 
 - 因为github更名更新了namespace的网址。
