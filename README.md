@@ -8,8 +8,8 @@
 [GitHub地址](https://github.com/barryZZJ/CQU_class_select_helper)
 
 ## 🍥 适配的网址<a id="webs"></a>：
-- 外网：[202.202.1.41](202.202.1.41)，[jxgl.cqu.edu.cn](jxgl.cqu.edu.cn)；
-- 内网：[222.198.128.126](222.198.128.126)，[202.202.1.176](222.198.128.126)。
+- 外网：[202.202.1.41](http://202.202.1.41)，[jxgl.cqu.edu.cn](http://jxgl.cqu.edu.cn)；
+- 内网：[222.198.128.126](http://222.198.128.126)，[202.202.1.176](http://222.198.128.126)。
 
 🍉 有意见或建议可以在Greasy Fork里提交[反馈](https://greasyfork.org/zh-CN/scripts/397063-%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E6%8A%A2%E8%AF%BE%E5%BE%AE%E8%BE%85%E5%8A%A9/feedback)，或者在我GitHub里提交[Issue](https://github.com/barryZZJ/CQU_class_select_helper/issues)，不定期更新新功能。
 
