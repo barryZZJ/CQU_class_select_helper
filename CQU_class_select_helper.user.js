@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         重庆大学抢课微辅助 - 大佬们进我GitHub点个star吧
+// @name         重庆大学抢课微辅助
 // @namespace    https://greasyfork.org/zh-CN/scripts/397063-%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E6%8A%A2%E8%AF%BE%E5%BE%AE%E8%BE%85%E5%8A%A9
 // @homepageURL https://github.com/barryZZJ/CQU_class_select_helper
 // @version      1.2.4
