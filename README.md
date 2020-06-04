@@ -37,7 +37,7 @@
 
 💜 点击油猴插件图标弹出配置界面，单击可以开关功能
 
-<center><img src="https://s1.ax1x.com/2020/06/04/tBv83j.jpg" alt="重复上次提交" title = "重复上次提交" width="35%"></img></center>
+<center><img src="https://s1.ax1x.com/2020/06/04/tBv83j.jpg" alt="各种功能" title = "重复上次提交" width="35%"></img></center>
 
 
 <!-- + `V.` 点击检索按钮时自动输入验证码; -->
