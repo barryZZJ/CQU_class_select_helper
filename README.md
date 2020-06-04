@@ -17,18 +17,27 @@
 
 ## 功能：
 
-💚 进入选课页面后自动点击检索按钮;
+💚 进入选课页面后自动点击检索按钮
 
-🧡 点击“提交”时不会弹出确认提示; 
+🧡 点击“提交”时不会弹出确认提示;
 
-💙 弹出选老师窗口中添加"快速选择"按钮，一键选择老师; 
-<center><img src="readmepics/III.jpg" alt="一键选择老师" title = "一键选择老师" width="75%"></img></center>
+💙 弹出选老师窗口中添加"快速选择"按钮，一键选择老师
+<center><img src="https://s1.ax1x.com/2020/06/04/tBvJvn.jpg" alt="一键选择老师" title = "一键选择老师" width="75%"></img></center>
+
+<br>
 
 💛 添加"重复上次提交"按钮。
 
 提交失败（比如提交完显示Service unavailable）时，重新进入后点击这个按钮可以直接重复上次提交的内容，不用再重新选老师。（可跨网页、跨域名共用，支持的网址见[适配的网址](#webs)。
-（不过现在流畅多了这个🐮🍺的功能用不上了）; 
-<center><img src="readmepics/II.jpg" alt="重复上次提交" title = "重复上次提交" width="75%"></img></center>
+（不过现在流畅多了这个🐮🍺的功能用不上了）
+
+<center><img src="https://s1.ax1x.com/2020/06/04/tBvVgA.jpg" alt="重复上次提交" title = "重复上次提交" width="75%"></img></center>
+
+<br>
+
+💜 点击油猴插件图标弹出配置界面，单击可以开关功能
+
+<center><img src="https://s1.ax1x.com/2020/06/04/tBv83j.jpg" alt="重复上次提交" title = "重复上次提交" width="35%"></img></center>
 
 
 <!-- + `V.` 点击检索按钮时自动输入验证码; -->
@@ -62,7 +71,6 @@
 > v1.2 &nbsp; 2020.2.28
 
 - 在油猴插件下拉菜单里添加各个功能的开关 
-<center><img src="readmepics/menu.jpg" alt="下拉菜单" title = "下拉菜单" width="50%"></img></center>
 
 - 改了一个不知道严不严重的bug，就是调用当前窗口时应该使用self而不是this。
 
