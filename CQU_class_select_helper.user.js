@@ -25,7 +25,7 @@
 //TODO 如果能识别了尝试一下训练
 
 const SCR_HEADER = "🐛重大抢课微辅助"; // 用于debug
-const version = "1.3.0";
+const version = "1.3.0"; 
 const configs = []; //* [各个功能的名字, 开关情况] 放在字典里用于生成下拉菜单时遍历
 //* 各个功能的类，key为GM存储中的key, caption为在下拉菜单中显示的文字
 class Config {
