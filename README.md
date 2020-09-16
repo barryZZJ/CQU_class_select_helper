@@ -5,7 +5,7 @@
 
 [脚本Greasy Fork安装地址](https://greasyfork.org/zh-CN/scripts/397063-%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E6%8A%A2%E8%AF%BE%E5%BE%AE%E8%BE%85%E5%8A%A9)
 
-[GitHub地址](https://github.com/barryZZJ/CQU_class_select_helper)
+[项目GitHub地址](https://github.com/barryZZJ/CQU_class_select_helper)
 
 ## 🍥 适配的网址<a id="webs"></a>：
 - 外网：[202.202.1.41](http://202.202.1.41)，[jxgl.cqu.edu.cn](http://jxgl.cqu.edu.cn)；
@@ -17,27 +17,46 @@
 
 ## 功能：
 
-💚 进入选课页面后自动点击检索按钮
+#### 💛 重试上次提交
 
-🧡 点击“提交”时不会弹出确认提示;
+添加“重试上次提交”复选框。
 
-💙 弹出选老师窗口中添加"快速选择"按钮，一键选择老师
+当发生了提交失败（比如提交完显示Service unavailable）的情况时，勾选上该选项，即可自动选择上次的老师，然后点提交即可。（可在适配的网址内跨网页、跨域名共用）
+（不过现在流畅多了这个🐮🍺的功能用不上了）
+
+<center><img src="https://s1.ax1x.com/2020/09/17/w2vOmV.jpg" alt="重试上次提交" title = "重试上次提交" width="75%"></img></center>
+
+<br>
+
+#### 💚 自动检索
+
+进入选课页面后自动点击检索按钮。
+
+<img src="https://s1.ax1x.com/2020/09/17/w2xdcn.jpg" alt="自动检索" title = "自动检索" width="20%"></img>
+
+<br>
+
+#### 🧡 禁用确认提示
+
+点击“提交”时不会弹出确认提示。
+
+<img src="https://s1.ax1x.com/2020/09/17/w2xa1s.jpg" alt="禁用提示" title = "禁用提示" width="50%"></img>
+
+<br>
+
+#### 💙 一键选老师
+
+在弹出的选老师窗口中，点击快选即可一键选择该老师。
+
 <center><img src="https://s1.ax1x.com/2020/06/04/tBvJvn.jpg" alt="一键选择老师" title = "一键选择老师" width="75%"></img></center>
 
 <br>
 
-💛 添加"重复上次提交"按钮。
+#### 💜 配置界面
 
-提交失败（比如提交完显示Service unavailable）时，重新进入后点击这个按钮可以直接重复上次提交的内容，不用再重新选老师。（可跨网页、跨域名共用，支持的网址见[适配的网址](#webs)。
-（不过现在流畅多了这个🐮🍺的功能用不上了）
+点击油猴插件图标弹出配置界面，单击可以开关各种功能
 
-<center><img src="https://s1.ax1x.com/2020/06/04/tBvVgA.jpg" alt="重复上次提交" title = "重复上次提交" width="75%"></img></center>
-
-<br>
-
-💜 点击油猴插件图标弹出配置界面，单击可以开关功能
-
-<center><img src="https://s1.ax1x.com/2020/06/04/tBv83j.jpg" alt="各种功能" title = "重复上次提交" width="35%"></img></center>
+<center><img src="https://s1.ax1x.com/2020/09/17/w2v5Fg.jpg" alt="各种功能" title = "重复上次提交" width="35%"></img></center>
 
 
 <!-- + `V.` 点击检索按钮时自动输入验证码; -->
@@ -49,6 +68,19 @@
 
   感谢OCR开源库[https://github.com/naptha/tesseract.js#tesseractjs](https://github.com/naptha/tesseract.js#tesseractjs)
 -->
+
+> v1.3.0 &nbsp; 2020.9.17
+
+今天花了一天大改了一下”重试上次提交“功能。
+
+1. 把以前的按钮式改成了复选框。防止误触导致已经选上的课又被自己挤掉。
+
+2. 新增了预览功能。选中复选框之后可以预览上一次的选项了。
+3. 新增了一些判断逻辑，能保证选成功之后不能再点击”重试上次提交“
+
+4.  扩大使用范围，不用点检索就可以直接重试上次提交
+
+此外看着以前的代码惨不忍睹，稍微修改了一下，也同时修改了readme的内容，看起来更美观。
 
 > v1.2.4 &nbsp; 2020.6.4
 
