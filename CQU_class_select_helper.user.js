@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         重庆大学抢课微辅助local
+// @name         重庆大学抢课微辅助
 // @namespace    https://greasyfork.org/zh-CN/scripts/397063-%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E6%8A%A2%E8%AF%BE%E5%BE%AE%E8%BE%85%E5%8A%A9
 // @version      1.3.0
 // @description  💛 发生了提交失败（比如提交完显示Service unavailable）的情况时，勾选上该选项，即可自动选择上次的老师，然后点提交即可。（可在适配的网址内跨网页、跨域名共用，支持的网址见代码里的 @match）💚 进入选课页面后自动点击检索按钮; 🧡 点击“提交”时不会弹出确认提示; 💙 弹出选老师窗口中添加"快速选择"按钮，一键选择老师;
